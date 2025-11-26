@@ -13,11 +13,12 @@ VALUES (1116465, 'ACTION'),
        (1116465, 'FANTASY'),
        (1116465, 'ADVENTURE');
 
+-- 비밀번호: password123
 INSERT INTO users (id, email, username, password, created_at, updated_at)
 VALUES (1,
         'tester@example.com',
         'tester',
-        'encodedPassword',
+        '$2a$10$DIldThbVDQ41clPHKfc8JupgOJrSyTy2Q5d32lh8GsCwhy4sXqwp2',
         NOW(),
         NOW());
 
