@@ -98,8 +98,7 @@ class ActorControllerTest {
     void getActor_Fail_NotFound() throws Exception {
         // given
         long actorId = 9999L;
-        given(actorService.getActor(actorId))
-                .willThrow(ActorNotFoundException.EXCEPTION);
+        given(actorService.getActor(actorId)).willThrow(ActorNotFoundException.EXCEPTION);
 
         // when & then
         mockMvc.perform(get("/actors/{actorId}", actorId))
