@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.java.assessment.reviewbox.domain.actor.business.exception.ActorNotFoundException;
 import com.java.assessment.reviewbox.domain.actor.business.service.ActorService;
 import com.java.assessment.reviewbox.domain.actor.presentation.response.ActorDetailResponse;
 import com.java.assessment.reviewbox.domain.actor.presentation.response.ActorSearchResponse;
@@ -90,6 +91,22 @@ class ActorControllerTest {
 
         // when & then
         mockMvc.perform(get("/actors/{actorId}", 31L)).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("GET /actors/{actorId} - 배우 상세 조회 실패 (존재하지 않는 배우)")
+    void getActor_Fail_NotFound() throws Exception {
+        // given
+        long actorId = 9999L;
+        given(actorService.getActor(actorId))
+                .willThrow(ActorNotFoundException.EXCEPTION);
+
+        // when & then
+        mockMvc.perform(get("/actors/{actorId}", actorId))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("ACTOR_NOT_FOUND"))
+                .andExpect(jsonPath("$.message").value("배우를 찾을 수 없습니다."));
     }
 
     @Test
